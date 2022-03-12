@@ -79,7 +79,94 @@ const addBookHandler = (request, h) => {
   return response;
 };
 
-const getAllBooksHandler = () => {
+const getAllBooksHandler = (request) => {
+  const { name, reading, finished } = request.query;
+
+  if (name !== undefined) {
+    const loweredName = name.toLowerCase();
+    const filteredQueryBooks = books
+      .filter((book) => book.name.toLowerCase().includes(loweredName))
+      .map((book) => ({
+        id: book.id,
+        name: book.name,
+        publisher: book.publisher,
+      }));
+    return {
+      status: 'success',
+      data: {
+        books: filteredQueryBooks,
+      },
+    };
+  }
+  if (reading !== undefined) {
+    if (reading === '0') {
+      const readingBook = false;
+      const filteredQueryBooks = books
+        .filter((book) => book.reading === readingBook)
+        .map((book) => ({
+          id: book.id,
+          name: book.name,
+          publisher: book.publisher,
+        }));
+      return {
+        status: 'success',
+        data: {
+          books: filteredQueryBooks,
+        },
+      };
+    }
+    if (reading === '1') {
+      const readingBook = true;
+      const filteredQueryBooks = books
+        .filter((book) => book.reading === readingBook)
+        .map((book) => ({
+          id: book.id,
+          name: book.name,
+          publisher: book.publisher,
+        }));
+      return {
+        status: 'success',
+        data: {
+          books: filteredQueryBooks,
+        },
+      };
+    }
+  }
+  if (finished !== undefined) {
+    if (finished === '0') {
+      const finishedBook = false;
+      const filteredQueryBooks = books
+        .filter((book) => book.finished === finishedBook)
+        .map((book) => ({
+          id: book.id,
+          name: book.name,
+          publisher: book.publisher,
+        }));
+      return {
+        status: 'success',
+        data: {
+          books: filteredQueryBooks,
+        },
+      };
+    }
+    if (finished === '1') {
+      const finishedBook = true;
+      const filteredQueryBooks = books
+        .filter((book) => book.finished === finishedBook)
+        .map((book) => ({
+          id: book.id,
+          name: book.name,
+          publisher: book.publisher,
+        }));
+      return {
+        status: 'success',
+        data: {
+          books: filteredQueryBooks,
+        },
+      };
+    }
+  }
+
   const filteredBooks = books.map((book) => ({
     id: book.id,
     name: book.name,
